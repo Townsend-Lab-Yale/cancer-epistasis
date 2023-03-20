@@ -2,11 +2,8 @@
 
 A local installation of python is required.
 
-Note: If you would like to generate results for the mutation rates you
-also require R and the libcurl4-openssl-dev library. We provide the
-mutation rate results obtained from cancereffectsizeR and they are not
-necessary for the main computation of the fluxes which is done in
-python.
+If you would like to generate results for the mutation rates you also
+require R and the libcurl4-openssl-dev library.
 
 * Instructions
 
@@ -34,7 +31,7 @@ If you want to generate the mutation rates for each of the four genes
   Rscript ./generate_mutation_rates.R
 #+end_src
 
-The main method to produce the results and all figures is:
+The main method to produce all the results is:
 #+begin_src shell
   python main.py
 #+end_src
