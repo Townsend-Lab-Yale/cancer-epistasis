@@ -1,0 +1,4 @@
+/code/.venv
+/code/.Rlibs/
+/results/*
+/data/tcga.luad.maf.txt
