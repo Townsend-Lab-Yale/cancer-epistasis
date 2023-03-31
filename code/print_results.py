@@ -106,24 +106,41 @@ def print_table(results, mutation_names=None, table_format=None,
             epistatic_effect = "synergistic"
         else:
             epistatic_effect = "antagonistic"
-        rows = ([mutation_names_sep.join([mutation_names[i]
-                                          for i in range(M) if xy[0][i] == 1]),
-                 mutation_names[acting_in.index(1)],
-                 ## The {\,\,\,} below fixes a siunitx bug in spacing in LaTeX
-                 ("{\,\,\,}0" if rounded["lambdas"][xy] == 0
-                  else "{:.2f}{{)}}".format(rounded["lambdas"][xy])),
-                 ("{\,\,\,(} 0{,}" if rounded["lambdas_cis"][xy][0] == 0
-                  else "{{(}} {:.2f}{{,}}".format(rounded["lambdas_cis"][xy][0])),
-                 "{:.2f}{{)}}".format(rounded["lambdas_cis"][xy][1]),
-                 "{:.2f}{{e-8}}".format(round(mu*10**8, 2)),
-                 ("{\,\,\,}0" if rounded["gammas"][xy] == 0
-                  else "{:.2f}".format(rounded["gammas"][xy])),
-                 ("{\,\,\,(} 0{,}" if rounded["gammas_cis"][xy][0] == 0
-                  else "{{(}} {:.2f}{{,}}".format(rounded["gammas_cis"][xy][0])),
-                 "{:.2f}{{)}}".format(rounded["gammas_cis"][xy][1])]
 
-                + ([epistatic_effect] if include_epistatic_effect
-                    else []))
+        if table_format == 'LaTeX':
+            rows = [mutation_names_sep.join([f"\\textit{{{mutation_names[i]}}}" if table_format == 'LaTeX'
+                                             else mutation_names[i]
+                                             for i in range(M) if xy[0][i] == 1]),
+                    f"\\textit{{{mutation_names[acting_in.index(1)]}}}" if table_format == 'LaTeX'
+                    else mutation_names[acting_in.index(1)],
+                    ## The {\,\,\,} below fixes a siunitx bug in spacing in LaTeX
+                    ("{\,\,\,}0" if rounded["lambdas"][xy] == 0
+                     else "{:.2f}".format(rounded["lambdas"][xy])),
+                    ("{\,\,\,(} 0{,}" if rounded["lambdas_cis"][xy][0] == 0
+                     else "{{(}} {:.2f}{{,}}".format(rounded["lambdas_cis"][xy][0])),
+                    "{:.2f}{{)}}".format(rounded["lambdas_cis"][xy][1]),
+                    "{:.2f}{{e-8}}".format(round(mu*10**8, 2)),
+                    ("{\,\,\,}0" if rounded["gammas"][xy] == 0
+                     else "{:.2f}".format(rounded["gammas"][xy])),
+                    ("{\,\,\,(} 0{,}" if rounded["gammas_cis"][xy][0] == 0
+                     else "{{(}} {:.2f}{{,}}".format(rounded["gammas_cis"][xy][0])),
+                    "{:.2f}{{)}}".format(rounded["gammas_cis"][xy][1])]
+        else:
+            rows = [mutation_names_sep.join([mutation_names[i]
+                                             for i in range(M) if xy[0][i] == 1]),
+                    mutation_names[acting_in.index(1)],
+                    str(rounded["lambdas"][xy]),
+                    str(rounded["lambdas_cis"][xy][0]),
+                    str(rounded["lambdas_cis"][xy][1]),
+                    str(round(mu*10**8, 2)),
+                    str(rounded["gammas"][xy]),
+                    str(rounded["gammas_cis"][xy][0]),
+                    str(rounded["gammas_cis"][xy][1])]
+
+
+        if include_epistatic_effect:
+            rows = rows + [epistatic_effect]
+
         rows[0] = ("normal" if rows[0] == "" else rows[0])
 
         print(chars['start_line'] + chars['sep'].join(rows) + chars['end_line'])
