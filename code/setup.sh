@@ -9,7 +9,7 @@ then
     `"A good way to have multiple python versions on your system is "`
     `"by installing pyenv (https://github.com/pyenv/pyenv).\r\n\r\n"`
     `"If pyenv is installed, run:\r\n\r\n"`
-    `"env PYTHON_CONFIGURE_OPTS=\"--enable-shared\" pyenv install 3.9.5\r\n"`
+    `"env PYTHON_CONFIGURE_OPTS=\"--enable-shared\" pyenv install 3.8.1\r\n"`
     `"pyenv local 3.8.1\r\n"
     read -p "If you still want to continue with a different python version, "`
     `"press enter to continue or Ctrl-C to abort setup."
